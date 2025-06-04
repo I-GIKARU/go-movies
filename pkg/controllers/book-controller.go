@@ -12,7 +12,16 @@ import (
 
 var NewBook models.Book
 
+// Helper function to set CORS headers
+func setCORSHeaders(w http.ResponseWriter) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+}
+
 func GetBook(w http.ResponseWriter, r *http.Request) {
+	setCORSHeaders(w)
+
 	newBooks, err := models.GetAllBooks()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -31,6 +40,8 @@ func GetBook(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetBookById(w http.ResponseWriter, r *http.Request) {
+	setCORSHeaders(w)
+
 	vars := mux.Vars(r)
 	bookId := vars["bookId"]
 	ID, err := strconv.ParseInt(bookId, 0, 0)
@@ -57,6 +68,8 @@ func GetBookById(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateBook(w http.ResponseWriter, r *http.Request) {
+	setCORSHeaders(w)
+
 	CreateBook := &models.Book{}
 	utils.ParseBody(r, CreateBook)
 	b, err := CreateBook.CreateBook()
@@ -77,6 +90,8 @@ func CreateBook(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteBook(w http.ResponseWriter, r *http.Request) {
+	setCORSHeaders(w)
+
 	vars := mux.Vars(r)
 	bookId := vars["bookId"]
 	ID, err := strconv.ParseInt(bookId, 0, 0)
@@ -98,6 +113,8 @@ func DeleteBook(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateBook(w http.ResponseWriter, r *http.Request) {
+	setCORSHeaders(w)
+
 	var updateData models.Book
 	utils.ParseBody(r, &updateData)
 

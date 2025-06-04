@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gorilla/mux"
 	"gomysql/pkg/routes"
+	"gomysql/pkg/utils"
 	"log"
 	"net/http"
 	"os"
@@ -18,7 +19,8 @@ func main() {
 		w.Write([]byte("OK"))
 	}).Methods("GET")
 
-	http.Handle("/", r)
+	// Enable CORS middleware
+	handler := utils.EnableCORS(r)
 
 	// Use PORT environment variable, fallback to 9010 for local development
 	port := os.Getenv("PORT")
@@ -27,5 +29,5 @@ func main() {
 	}
 
 	log.Printf("Server starting on port %s", port)
-	log.Fatal(http.ListenAndServe(":"+port, r))
+	log.Fatal(http.ListenAndServe(":"+port, handler))
 }
