@@ -1,4 +1,3 @@
-
 # Build stage
 FROM golang:1.24.1-alpine AS builder
 
@@ -13,8 +12,8 @@ RUN go mod download
 # Copy source code
 COPY . .
 
-# Build the application - Fixed path
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main ./main.go
+# Build the application - explicitly reference main.go in root
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main main.go
 
 # Production stage
 FROM alpine:latest
