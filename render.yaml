@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: go-bookstore-api
+    env: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql://neondb_owner:npg_eV8nmvboIzX9@ep-fragrant-dust-a8os9ocp-pooler.eastus2.azure.neon.tech/neondb?sslmode=require
+      - key: PORT
+        value: 8080
